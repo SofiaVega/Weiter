@@ -22,29 +22,28 @@ const styles = StyleSheet.create({
 })
 
 const tableData = {
-    tableHead: ['No.', 'Estado', 'Acción'],
     tableData: [
-        ['1', 'Abierta', <Button title="Editar" color='#C8B8FF'>Editar</Button>],
-        ['2', 'Pagada', <Button title="Eliminar" color='#F9553A'>Eliminar</Button>],
-        ['3', 'Cerrada', <Button title="Abrir Mesa" color='#03ea60'>Abrir Mesa</Button>],
+        ['Hamburguesas con papa', <Button title="" color='#C8B8FF'>Editar</Button>],
+        ['Hot dog especial', <Button title="" color='#F9553A'>Eliminar</Button>],
+        ['Burrito de carne con queso', <Button title="" color='#03ea60'>Abrir Mesa</Button>],
     ],
 };
 
-const Mesas = () => {
+const EditarOrdenMesa = () => {
     const [data, setData] = useState(tableData);
     return (
-      <>
-      <View style={styles.containerView}>
-      <Text style={styles.textTitle}>Restaurante</Text>
-      </View>
+        <>
+        <View style={styles.containerView}>
+        <Text style={styles.textTitle}>Menú</Text>
+        </View>
         <View style={styles.container}>
             <Table>
-                <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
                 <Rows data={data.tableData} textStyle={styles.text} />
             </Table>
+            <Button title="Guardar" color='#C8B8FF'></Button>
         </View>
-      </>
+        </>
     )
 }
 
-export default Mesas
+export default EditarOrdenMesa
