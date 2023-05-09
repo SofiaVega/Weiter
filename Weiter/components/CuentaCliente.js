@@ -1,8 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
 
+// https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415
+
+const callApi = async () => {
+    await fetch(
+      `https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        console.log("RESSSS");
+        console.log(res);
+        if (res.hasOwnProperty("error")){
+            setErrorMessage(true);
+        }
+        // error message if res is not success
+    });
+  };
+
 const CuentaCliente = props => {
+  const [items, setItems] = useState([]);
+  const [mesero, setMesero] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [subtotal, setSubtotal] = useState(0);
+  const [propina, setPropina] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  useEffect(() => {
+    const api = async () => {
+      try {
+        const data = await fetch(`https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415`, {
+          method: "GET"
+        });
+        const jsonData = await data.json();
+        console.log(jsonData)
+        setItems(jsonData.items);
+        setMesero(jsonData.mesero);
+        setFecha(jsonData.fecha);
+        setSubtotal(jsonData.subtotal);
+        setPropina(jsonData.propina);
+        setTotal(jsonData.total);
+        // return setState(jsonData.results);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    api();
+  }, []);
     return (
         <View style={[
           styles.container,
@@ -14,28 +60,27 @@ const CuentaCliente = props => {
           <View style={{flex: 1,  flexDirection: 'row', padding: 20}}>
             <Text style={[styles.text,{flex: 1}]} >Orden</Text>
             <View style = {{flexDirection: 'column', flex: 1,}}>
-              <Text style = {styles.smallText} >Fecha</Text>
-              <Text style = {styles.smallText}>Mesero</Text>
+              <Text style = {styles.smallText}> Fecha {fecha}</Text>
+              <Text style = {styles.smallText}>Mesero: {mesero}</Text>
             </View>
           </View>
           <View style={{flex: 3, }}>
-            <OrderRow cantidad = {1} nombre = "Hamburguesa" costo = {150} />
-            <OrderRow cantidad = {1} nombre = "Hamburguesa" costo = {150} />
-            <OrderRow cantidad = {1} nombre = "Hamburguesa" costo = {150} />
-    
+            {items.map((item)=>{
+              return <OrderRow cantidad = {1} nombre = {item.nombre} costo = {item.precio} />
+            })}
           </View>
           <View style={{flex: 1,}}>
             <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
               <Text style={{flex: 1}} >Subtotal:</Text>
-              <Text style={{flex: 1, textAlign: 'right'}} >$1500</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >{subtotal}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
               <Text style={{flex: 1}} >IVA:</Text>
-              <Text style={{flex: 1, textAlign: 'right'}} >$20</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >$0</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20,}}>
               <Text style={{flex: 1}} >Total:</Text>
-              <Text style={{flex: 1,textAlign: 'right'}} >$1540</Text>
+              <Text style={{flex: 1,textAlign: 'right'}} >{total}</Text>
             </View>
           </View>
           <View style={{flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center',}}>
