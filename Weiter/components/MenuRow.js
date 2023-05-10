@@ -19,22 +19,9 @@ const MenuRow = props => {
     } else if (timesPressed > 0) {
       textLog = '';
     }
-    return <View style={[styles.container,{flex: 1, flexDirection: 'row'}]}>
+    return <View style={[{flexDirection: 'row'}]}>
         <Text style={{flex: 3}} >{props.nombre}</Text>
         <View style={{flexDirection:'row'}}>
-            <Pressable
-                onPress={() => {
-                setTimesPressed(current => current + 1);
-                }}
-            >
-                {({pressed}) => (
-                <Text style={styles.botonCounter}>{pressed ? '+1' : '+'}</Text>
-                )}
-            </Pressable>
-            <View style={styles.logBox}>
-                <Text testID="pressable_press_console">{textLog}</Text>
-            </View>
-
             <Pressable
                 onPress={() => {
                 setTimesPressed(current => current - 1);
@@ -44,15 +31,23 @@ const MenuRow = props => {
                 <Text style={styles.botonCounter}>{pressed ? '-1' : '-'}</Text>
                 )}
             </Pressable>
+            <View style={styles.logBox}>
+                <Text testID="pressable_press_console">{textLog}</Text>
+            </View>
+            <Pressable
+                onPress={() => {
+                setTimesPressed(current => current + 1);
+                }}
+            >
+                {({pressed}) => (
+                <Text style={styles.botonCounter}>{pressed ? '+1' : '+'}</Text>
+                )}
+            </Pressable>
         </View>
     </View>
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-    },
     text: {
       fontWeight: 'bold',
       color: '#C8B8FF',
@@ -79,6 +74,12 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 10,
       color: '#C8B8FF',
+      fontSize: 20,
+      alignItems: 'left',
+    },
+    logBox: {
+      padding: 10,
+      margin: 10,
       fontSize: 20,
       alignItems: 'left',
     },
