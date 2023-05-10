@@ -2,6 +2,10 @@
 
 ## Available Scripts
 
+### `docker-compose up`
+
+Para levantar la imagen de posgres.
+
 In the project directory, you can run:
 
 ### `npm start`
