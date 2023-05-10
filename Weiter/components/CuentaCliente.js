@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
+import ModalPropina from './ModalPropina';
 
 // https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415
 
@@ -49,6 +50,8 @@ const CuentaCliente = props => {
     };
     api();
   }, []);
+  const [isModalOpen, setIsModalOpen, porcentajePropina] = useState(false);
+
     return (
         <View style={[
           styles.container,
@@ -78,15 +81,20 @@ const CuentaCliente = props => {
               <Text style={{flex: 1}} >IVA:</Text>
               <Text style={{flex: 1, textAlign: 'right'}} >$0</Text>
             </View>
+            <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
+              <Text style={{flex: 1}} >Propina:</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >0</Text>
+            </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20,}}>
               <Text style={{flex: 1}} >Total:</Text>
               <Text style={{flex: 1,textAlign: 'right'}} >{total}</Text>
             </View>
           </View>
           <View style={{flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center',}}>
-            <Pressable style = {styles.boton}>
+            <Pressable style = {styles.boton} onPress={() => setIsModalOpen(!isModalOpen)}>
               <Text style = {styles.smallText}>AGREGAR PROPINA</Text>
             </Pressable>
+            <ModalPropina isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} porcentajePropina={0}></ModalPropina>
             <Pressable style = {styles.boton}>
               <Text style = {styles.smallText}>PAGAR</Text>
             </Pressable>
