@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import Mesas from './components/Mesas';
 import EditarOrdenMesa from './components/EditarOrdenMesa';
 import CuentaCliente from './components/CuentaCliente';
+import MenuMesero from './components/MenuMesero';
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
       {/* Aquí pongo el componente para poder render it */}
       {/* <Mesas></Mesas> */}
       {/* <EditarOrdenMesa></EditarOrdenMesa> */}
-      <CuentaCliente></CuentaCliente>
+      <MenuMesero></MenuMesero>
     </>
   );
 }
