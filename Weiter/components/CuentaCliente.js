@@ -1,10 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 
 const CuentaCliente = props => {
     return (
-        <View style={[
+      <>
+                <View style={[
           styles.container,
           {
             // Try setting `flexDirection` to `"row"`.
@@ -42,11 +44,34 @@ const CuentaCliente = props => {
             <Pressable style = {styles.boton}>
               <Text style = {styles.smallText}>AGREGAR PROPINA</Text>
             </Pressable>
-            <Pressable style = {styles.boton}>
+            {/* <Pressable style = {styles.boton}>
               <Text style = {styles.smallText}>PAGAR</Text>
-            </Pressable>
+            </Pressable> */}
+            <PayPalScriptProvider options={{"client-id" : "ASzhk4t0zLTKZyxe1fRt_k5c17fqnQCQrsEbD0wsSlV0kpPdNwRxSnLhipQNxr65rDGlwGLJkK5qgshL"}}>
+            <PayPalButtons
+              createOrder={(data,actions) => {
+                return actions.order.create({
+                  purchase_units : [
+                    {
+                      amount: {
+                        value: "13.99",
+                      },
+
+                    },
+                  ],
+                });
+              }}
+              onApprove={(data,actions) => {
+                return actions.order.capture().then(function (details){
+                  alert("TRANSACTION COMPLETED");
+                })
+              }}
+            />
+          </PayPalScriptProvider>
           </View>
         </View>
+      </>
+
       );
 };
 
