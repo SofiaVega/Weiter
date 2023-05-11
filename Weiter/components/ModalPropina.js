@@ -3,12 +3,12 @@ import {Text, Modal, View, Button, Pressable, StyleSheet, SafeAreaView, OrderRow
 import { Picker } from '@react-native-picker/picker';
 
 
-export default function ModalPropina({isModalOpen, setIsModalOpen, porcentajePropina}) {
+export default function ModalPropina({isModalOpen, setIsModalOpen, propina, setPropina}) {
     const [selectedValue, setSelectedValue] = useState("0%");
 
     const handleSubmit = () => {
         setIsModalOpen(!setIsModalOpen)
-        porcentajePropina = selectedValue
+        setPropina(selectedValue)
     }
 
     return(
