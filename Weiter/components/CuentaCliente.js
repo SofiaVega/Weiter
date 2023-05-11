@@ -75,19 +75,19 @@ const CuentaCliente = props => {
           <View style={{flex: 1,}}>
             <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
               <Text style={{flex: 1}} >Subtotal:</Text>
-              <Text style={{flex: 1, textAlign: 'right'}} >{subtotal}</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >${subtotal.toFixed(2)}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
               <Text style={{flex: 1}} >IVA:</Text>
-              <Text style={{flex: 1, textAlign: 'right'}} >$0</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >${(total*0.16).toFixed(2)}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
               <Text style={{flex: 1}} >Propina:</Text>
-              <Text style={{flex: 1, textAlign: 'right'}} >{propina}</Text>
+              <Text style={{flex: 1, textAlign: 'right'}} >${((total*1.16)*propina*0.01).toFixed(2)}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 20,}}>
               <Text style={{flex: 1}} >Total:</Text>
-              <Text style={{flex: 1,textAlign: 'right'}} >{total + total*propina*0.01}</Text>
+              <Text style={{flex: 1,textAlign: 'right'}} >${((total*1.16) + (total*1.16)*propina*0.01).toFixed(2)}</Text>
             </View>
           </View>
           <View style={{flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center',}}>
