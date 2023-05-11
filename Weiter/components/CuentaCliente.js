@@ -73,19 +73,19 @@ const CuentaCliente = props => {
             })}
           </View>
           <View style={{flex: 1,}}>
-            <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
+            <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Subtotal:</Text>
               <Text style={{flex: 1, textAlign: 'right'}} >${subtotal.toFixed(2)}</Text>
             </View>
-            <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
+            <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >IVA:</Text>
               <Text style={{flex: 1, textAlign: 'right'}} >${(total*0.16).toFixed(2)}</Text>
             </View>
-            <View style={{flex: 1, flexDirection: 'row', padding: 20}}>
+            <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Propina:</Text>
               <Text style={{flex: 1, textAlign: 'right'}} >${((total*1.16)*propina*0.01).toFixed(2)}</Text>
             </View>
-            <View style={{flex: 1, flexDirection: 'row', padding: 20,}}>
+            <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Total:</Text>
               <Text style={{flex: 1,textAlign: 'right'}} >${((total*1.16) + (total*1.16)*propina*0.01).toFixed(2)}</Text>
             </View>
