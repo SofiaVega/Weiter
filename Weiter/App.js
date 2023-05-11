@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import Mesas from './components/Mesas';
 import EditarOrdenMesa from './components/EditarOrdenMesa';
 import CuentaCliente from './components/CuentaCliente';
+import MenuMesero from './components/MenuMesero';
 
 export default function App() {
   return (
