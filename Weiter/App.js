@@ -10,9 +10,9 @@ export default function App() {
   return (
     <>
       {/* Aquí pongo el componente para poder render it */}
-      {/* <Mesas></Mesas> */}
+      <Mesas></Mesas>
       {/* <EditarOrdenMesa></EditarOrdenMesa> */}
-      <CuentaCliente></CuentaCliente>
+      {/* <CuentaCliente></CuentaCliente> */}
     </>
   );
 }
