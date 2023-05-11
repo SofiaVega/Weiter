@@ -1,0 +1,107 @@
+
+CREATE TABLE public.restaurante
+(
+    "restauranteID" integer NOT NULL,
+    nombre_rest text,
+    ciudad text,
+    PRIMARY KEY ("restauranteID")
+);
+
+ALTER TABLE IF EXISTS public.restaurante
+    OWNER to root;
+
+
+CREATE TABLE public.admin
+(
+    "adminID" integer NOT NULL,
+    "restauranteID" integer NOT NULL,
+    nombre_admin text,
+    PRIMARY KEY ("adminID"),
+    FOREIGN KEY ("restauranteID")
+        REFERENCES public.restaurante ("restauranteID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS public.admin
+    OWNER to root;
+
+
+CREATE TABLE public.menu
+(
+    "menuID" integer NOT NULL,
+    PRIMARY KEY ("menuID")
+);
+
+ALTER TABLE IF EXISTS public.menu
+    OWNER to root;
+
+
+CREATE TABLE IF NOT EXISTS public.cuenta
+(
+    "cuentaID" integer NOT NULL,
+    "mesaID" integer NOT NULL,
+    subtotal real,
+    propina real,
+    total real,
+    CONSTRAINT cuenta_pkey PRIMARY KEY ("cuentaID"),
+    CONSTRAINT "cuenta_mesaID_fkey" FOREIGN KEY ("mesaID")
+        REFERENCES public.mesa ("mesaID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.cuenta
+    OWNER to root;
+
+CREATE TABLE IF NOT EXISTS public.mesa
+(
+    "mesaID" integer NOT NULL,
+    "restauranteID" integer NOT NULL,
+    "cuentaID" integer,
+    CONSTRAINT mesa_pkey PRIMARY KEY ("mesaID"),
+    CONSTRAINT "mesa_cuentaID_fkey" FOREIGN KEY ("cuentaID")
+        REFERENCES public.cuenta ("cuentaID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "mesa_restauranteID_fkey" FOREIGN KEY ("restauranteID")
+        REFERENCES public.restaurante ("restauranteID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.mesa
+    OWNER to root;
+
+
+CREATE TABLE IF NOT EXISTS public.item
+(
+    "itemID" integer NOT NULL,
+    "menuID" integer,
+    "cuentaID" integer,
+    precio real,
+    nombre text COLLATE pg_catalog."default",
+    CONSTRAINT item_pkey PRIMARY KEY ("itemID"),
+    CONSTRAINT "item_cuentaID_fkey" FOREIGN KEY ("cuentaID")
+        REFERENCES public.cuenta ("cuentaID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "item_menuID_fkey" FOREIGN KEY ("menuID")
+        REFERENCES public.menu ("menuID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.item
+    OWNER to root;

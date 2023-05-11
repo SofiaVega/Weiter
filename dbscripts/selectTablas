@@ -1,0 +1,17 @@
+SELECT "adminID", "restauranteID", nombre_admin
+	FROM public.admin;
+
+SELECT "cuentaID", "mesaID", subtotal, propina, total
+	FROM public.cuenta;
+
+SELECT "itemID", "menuID", "cuentaID", precio, nombre
+	FROM public.item;
+
+SELECT "menuID"
+	FROM public.menu;
+
+SELECT "mesaID", "restauranteID", "cuentaID"
+	FROM public.mesa;
+
+SELECT "restauranteID", nombre_rest, ciudad
+	FROM public.restaurante;

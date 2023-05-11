@@ -1,0 +1,23 @@
+INSERT INTO public.admin(
+	"adminID", "restauranteID", nombre_admin)
+	VALUES (?, ?, ?);
+
+INSERT INTO public.cuenta(
+	"cuentaID", "mesaID", subtotal, propina, total)
+	VALUES (?, ?, ?, ?, ?);
+
+INSERT INTO public.item(
+	"itemID", "menuID", "cuentaID", precio, nombre)
+	VALUES (?, ?, ?, ?, ?);
+
+INSERT INTO public.menu(
+	"menuID")
+	VALUES (?);
+
+INSERT INTO public.mesa(
+	"mesaID", "restauranteID", "cuentaID")
+	VALUES (?, ?, ?);
+
+INSERT INTO public.restaurante(
+	"restauranteID", nombre_rest, ciudad)
+	VALUES (?, ?, ?);
