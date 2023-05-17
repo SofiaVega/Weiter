@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
+import { useNavigation } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: { flex: 5, justifyContent: 'top', backgroundColor: '#ffffff' },
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
 })
 
 const Mesas = () => {
+  const navigation = useNavigation();
   const [active, setActive] = useState(false);
   const handleClick = () => {
     setActive(!active);
@@ -35,7 +37,7 @@ const Mesas = () => {
   var tableData = {
     tableHead: ['No.', 'Estado', 'Acción'],
     tableData: [
-        ['1', 'Abierta', <Button title="Editar" color='#C8B8FF' visible={false}>Editar</Button>],
+        ['1', 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('editarOrdenMesa')} color='#C8B8FF' visible={false}>Editar</Button>],
         ['2', 'Pagada', <Button title="Eliminar" color='#F9553A'>Cerrar Mesa</Button>],
         ['3', 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>],
     ],
