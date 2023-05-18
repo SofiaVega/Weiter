@@ -12,7 +12,7 @@ export default function App() {
       {/* Aquí pongo el componente para poder render it */}
       {/* <Mesas></Mesas> */}
       {/* <EditarOrdenMesa></EditarOrdenMesa> */}
-      <CuentaCliente></CuentaCliente>
+      <MenuMesero></MenuMesero>
     </>
   );
 }
