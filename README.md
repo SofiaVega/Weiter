@@ -2,7 +2,20 @@
 
 ## Available Scripts
 
+### `docker-compose up`
+
+Para levantar la imagen de posgres.
+
 In the project directory, you can run:
+
+### Para que funcione la conexión a la BD
+npm init -y
+
+y luego
+
+npm install pg
+
+
 
 ### `npm start`
 
