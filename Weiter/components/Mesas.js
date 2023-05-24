@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { useNavigation } from "@react-navigation/native";
+import { ref, get, child } from 'firebase/database'
+import { firebaseDB } from '../firebaseConfig';
 
 const styles = StyleSheet.create({
   container: { flex: 5, justifyContent: 'top', backgroundColor: '#ffffff' },
@@ -44,18 +46,40 @@ const Mesas = () => {
   };
 
   const [data, setData] = useState(tableData);
+  const starCountRef = ref(firebaseDB, 'mesa/mesaId');
+  const valor = "no"
+  console.log(starCountRef)
+  get(child(ref(firebaseDB), 'mesas')).then((snapshot) => {
+    if (snapshot.exists()) {
+      valor = snapshot.val();
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
 
   return (
+
     <>
     <View style={styles.containerView}>
     <Text style={styles.textTitle}>Restaurante</Text>
     </View>
+
       <View style={styles.container}>
           <Table>
               <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
               <Rows data={data.tableData} textStyle={styles.text} />
           </Table>
       </View>
+
+      {/* <View>
+        <Table>
+          <Rows data={valor} />
+        </Table>
+      </View> */}
+
     </>
   )
 }
