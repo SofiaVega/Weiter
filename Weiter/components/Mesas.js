@@ -46,12 +46,11 @@ const Mesas = () => {
   };
 
   const [data, setData] = useState(tableData);
-  const starCountRef = ref(firebaseDB, 'mesa/mesaId');
-  const valor = "no"
-  console.log(starCountRef)
-  get(child(ref(firebaseDB), 'mesas')).then((snapshot) => {
+  // const starCountRef = ref(firebaseDB, 'mesa/mesaId');
+  console.log("aver ")
+  // console.log(starCountRef)
+  get(child(ref(firebaseDB),'mesas/mesa01')).then((snapshot) => {
     if (snapshot.exists()) {
-      valor = snapshot.val();
       console.log(snapshot.val());
     } else {
       console.log("No data available");
@@ -65,21 +64,14 @@ const Mesas = () => {
     <>
     <View style={styles.containerView}>
     <Text style={styles.textTitle}>Restaurante</Text>
+    {/* <Text> Value: {starCountRef}</Text> */}
     </View>
-
       <View style={styles.container}>
           <Table>
               <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
               <Rows data={data.tableData} textStyle={styles.text} />
           </Table>
       </View>
-
-      {/* <View>
-        <Table>
-          <Rows data={valor} />
-        </Table>
-      </View> */}
-
     </>
   )
 }
