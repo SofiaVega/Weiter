@@ -8,10 +8,16 @@ import MenuMesero from './components/MenuMesero';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConfirmacionPagoCliente from './components/ConfirmacionPagoCliente';
+import { firebaseDB } from './firebaseConfig';
+import { ref } from 'firebase/database'
+
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
+  const starCountRef = ref(firebaseDB, 'mesa/mesaId');
+
   return (
     <>
       <NavigationContainer>
