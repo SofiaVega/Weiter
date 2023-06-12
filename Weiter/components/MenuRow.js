@@ -25,6 +25,7 @@ const MenuRow = props => {
             <Pressable
                 onPress={() => {
                 setTimesPressed(current => current - 1);
+                props.parentCallback([props.nombre,timesPressed]);
                 }}
             >
                 {({pressed}) => (
@@ -37,6 +38,7 @@ const MenuRow = props => {
             <Pressable
                 onPress={() => {
                 setTimesPressed(current => current + 1);
+                props.parentCallback([props.nombre,timesPressed]);
                 }}
             >
                 {({pressed}) => (
