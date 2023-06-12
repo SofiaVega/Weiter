@@ -46,18 +46,18 @@ const Mesas = () => {
   };
 
   const [data, setData] = useState(tableData);
-  // const starCountRef = ref(firebaseDB, 'mesa/mesaId');
-  // console.log("aver ")
-  // // console.log(starCountRef)
-  // get(child(ref(firebaseDB),'mesas/mesa01')).then((snapshot) => {
-  //   if (snapshot.exists()) {
-  //     console.log(snapshot.val());
-  //   } else {
-  //     console.log("No data available");
-  //   }
-  // }).catch((error) => {
-  //   console.error(error);
-  // });
+  const starCountRef = ref(firebaseDB, 'mesa/mesaId');
+  console.log("aver ")
+  // console.log(starCountRef)
+  get(child(ref(firebaseDB),'mesas/mesa01')).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
 
   return (
 

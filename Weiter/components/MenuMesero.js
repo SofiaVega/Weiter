@@ -6,9 +6,7 @@ import MenuRow from './MenuRow';
 
 const CuentaCliente = props => {
     const [nItems, setNItems] = useState([]);
-    const [cuenta, setCuenta] = useState([]);
     const numeroMesa = 1;
-    const [isOrdered, setIsOrdered] = useState(false);
 
     //Cargar menu a pantalla
     get(child(ref(firebaseDB),'restaurante1/menu/menus')).then((snapshot) => {
@@ -29,6 +27,7 @@ const CuentaCliente = props => {
     const handleCallback = (childData) => {
       const nombreItem = childData[0];
       const numeroItem = childData[1];
+      var flag = false;
 
       get(child(ref(firebaseDB),'restaurante1/mesas/'+ numeroMesa + '/itemsMenu')).then((snapshot) => {
 
@@ -43,7 +42,7 @@ const CuentaCliente = props => {
             });
 
           }else{
-
+            flag = false;
             for (let k in listaItems) {
 
               if (listaItems[k].nombre == nombreItem){
@@ -51,15 +50,22 @@ const CuentaCliente = props => {
                 update(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/' + k + '/'), {
                    cantidad: numeroItem,
                 });
+                flag = true;
+                break;
 
-              }else{
-                //Inserta un nuevo item a la cuenta
-                push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
-                        nombre: nombreItem,
-                        cantidad: numeroItem,
-                });
               }
             }
+
+            if (flag == false){
+              //Inserta un nuevo item a la cuenta
+              push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
+                nombre: nombreItem,
+                cantidad: numeroItem,
+              });
+            }
+
+            flag = false;
+
           }
         } else {
           console.log("No hay datos disponibles");
