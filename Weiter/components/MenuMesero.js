@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
-import { ref, get, child, set, push } from 'firebase/database'
+import { ref, get, child, set, push, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 import MenuRow from './MenuRow';
 
@@ -10,6 +10,7 @@ const CuentaCliente = props => {
     const numeroMesa = 1;
     const [isOrdered, setIsOrdered] = useState(false);
 
+    //Cargar menu a pantalla
     get(child(ref(firebaseDB),'restaurante1/menu/menus')).then((snapshot) => {
       if (snapshot.exists()) {
 
@@ -23,23 +24,45 @@ const CuentaCliente = props => {
       console.error(error);
     });
 
-
+    
+    // Actualizar cantidad de los items en la cuenta de la mesa
     const handleCallback = (childData) => {
-      console.log(childData);
       const nombreItem = childData[0];
       const numeroItem = childData[1];
-      
-      get(child(ref(firebaseDB),'restaurante1/mesas/1/itemsMenu/nombre/' + nombreItem)).then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log("YA ESRA");
 
-        } else {
-          console.log("Se añade a la lista como nuevo");
+      get(child(ref(firebaseDB),'restaurante1/mesas/'+ numeroMesa + '/itemsMenu')).then((snapshot) => {
+
+        if (snapshot.exists()) {
+          const listaItems = snapshot.val();
           
-          push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
-            nombre: nombreItem,
-            cantidad: numeroItem,
-          });
+          //Checar por si es el primero a insertar
+          if (listaItems == ""){
+            push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
+              nombre: nombreItem,
+              cantidad: numeroItem,
+            });
+
+          }else{
+
+            for (let k in listaItems) {
+
+              if (listaItems[k].nombre == nombreItem){
+                // Actualiza la cantidad para un item que ya se pidió
+                update(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/' + k + '/'), {
+                   cantidad: numeroItem,
+                });
+
+              }else{
+                //Inserta un nuevo item a la cuenta
+                push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
+                        nombre: nombreItem,
+                        cantidad: numeroItem,
+                });
+              }
+            }
+          }
+        } else {
+          console.log("No hay datos disponibles");
         }
       }).catch((error) => {
         console.error(error);
