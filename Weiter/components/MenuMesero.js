@@ -1,29 +1,80 @@
 import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { ref, get, child, set, push, update } from 'firebase/database'
+import { firebaseDB } from '../firebaseConfig';
 import MenuRow from './MenuRow';
 
-// https://run.mocky.io/v3/6b177d28-6e7f-4de4-a61a-526b8e4cf852
-
-
 const CuentaCliente = props => {
-    const [items, setItems] = useState([]);
-    const mocky_url = `https://run.mocky.io/v3/6b177d28-6e7f-4de4-a61a-526b8e4cf852`;
-    useEffect(() => {
-        const api = async () => {
-          try {
-            const data = await fetch(mocky_url, {
-              method: "GET"
+    const [nItems, setNItems] = useState([]);
+    const numeroMesa = 1;
+
+    //Cargar menu a pantalla
+    get(child(ref(firebaseDB),'restaurante1/menu/menus')).then((snapshot) => {
+      if (snapshot.exists()) {
+
+        const prueba = snapshot.toJSON();
+        const data = JSON.parse(prueba);
+        setNItems(data.items);
+      } else {
+        console.log("No data available here");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+
+    
+    // Actualizar cantidad de los items en la cuenta de la mesa
+    const handleCallback = (childData) => {
+      const nombreItem = childData[0];
+      const numeroItem = childData[1];
+      var flag = false;
+
+      get(child(ref(firebaseDB),'restaurante1/mesas/'+ numeroMesa + '/itemsMenu')).then((snapshot) => {
+
+        if (snapshot.exists()) {
+          const listaItems = snapshot.val();
+          
+          //Checar por si es el primero a insertar
+          if (listaItems == ""){
+            push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
+              nombre: nombreItem,
+              cantidad: numeroItem,
             });
-            const jsonData = await data.json();
-            setItems(jsonData.items);
-            setTotal(jsonData.total);
-            // return setState(jsonData.results);
-          } catch (e) {
-            console.error(e);
+
+          }else{
+            flag = false;
+            for (let k in listaItems) {
+
+              if (listaItems[k].nombre == nombreItem){
+                // Actualiza la cantidad para un item que ya se pidió
+                update(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/' + k + '/'), {
+                   cantidad: numeroItem,
+                });
+                flag = true;
+                break;
+
+              }
+            }
+
+            if (flag == false){
+              //Inserta un nuevo item a la cuenta
+              push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
+                nombre: nombreItem,
+                cantidad: numeroItem,
+              });
+            }
+
+            flag = false;
+
           }
-        };
-        api();
-    }, []);
+        } else {
+          console.log("No hay datos disponibles");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
     return (
         <View style={[
           styles.container,
@@ -37,8 +88,8 @@ const CuentaCliente = props => {
             <Text style={[styles.text,{flex: 2}]} >Menu</Text>
           </View>
           <View style={{flex: 4, }}>
-            {items.map((item)=>{
-                return <MenuRow nombre = {item.nombre} />
+            {nItems.map((item)=>{
+              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback}  />
             })}
           </View>
         </View>
