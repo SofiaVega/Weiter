@@ -2,26 +2,28 @@ import React, { useState, useEffect } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
 import ModalPropina from './ModalPropina';
+import { ref, get, child } from 'firebase/database'
+import { firebaseDB } from '../firebaseConfig';
 
 // https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415
 
-const callApi = async () => {
-    await fetch(
-      `https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        console.log("RESSSS");
-        console.log(res);
-        if (res.hasOwnProperty("error")){
-            setErrorMessage(true);
-        }
-        // error message if res is not success
-    });
-  };
+// const callApi = async () => {
+//     await fetch(
+//       `https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415`,
+//       requestOptions
+//     )
+//       .then((response) => response.json())
+//       .then((res) => {
+//         console.log("RESSSS");
+//         console.log(res);
+//         if (res.hasOwnProperty("error")){
+//             setErrorMessage(true);
+//         }
+//         // error message if res is not success
+//     });
+//   };
 
-const CuentaCliente = props => {
+const CuentaCliente = ({route, navigation}) => {
   const [items, setItems] = useState([]);
   const [mesero, setMesero] = useState("");
   const [fecha, setFecha] = useState("");
@@ -29,28 +31,26 @@ const CuentaCliente = props => {
   const [propina, setPropina] = useState(0);
   const [total, setTotal] = useState(0);
   const [hasLoaded, setHasLoaded] = useState(false);
-  useEffect(() => {
-    const api = async () => {
-      try {
-        const data = await fetch(`https://run.mocky.io/v3/66ce4cb9-218c-49d2-a668-746d067cd415`, {
-          method: "GET"
-        });
-        const jsonData = await data.json();
-        console.log(jsonData)
-        setItems(jsonData.items);
-        setMesero(jsonData.mesero);
-        setFecha(jsonData.fecha);
-        setSubtotal(jsonData.subtotal);
-        setPropina(jsonData.propina);
-        setTotal(jsonData.total);
-        // return setState(jsonData.results);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    api();
-  }, []);
+  const param = route.params;
   const [isModalOpen, setIsModalOpen, porcentajePropina] = useState(false);
+  var loadedItemsCuenta = false;
+
+  //Cargar cuenta
+  if(loadedItemsCuenta == false){
+    get(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/itemsMenu/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          // setCuentas(snapshot.val())
+          console.log("AVER");
+          console.log(snapshot.val())
+
+        } else {
+          console.log("No data available here");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+    loadedItemsCuenta = true;
+  }
 
     return (
         <View style={[
@@ -61,17 +61,22 @@ const CuentaCliente = props => {
           },
         ]}>
           <View style={{flex: 1,  flexDirection: 'row', padding: 20}}>
-            <Text style={[styles.text,{flex: 1}]} >Orden</Text>
+            <Text style={[styles.text,{flex: 1}]} >Orden #{param}</Text>
             <View style = {{flexDirection: 'column', flex: 1,}}>
               <Text style = {styles.smallText}> Fecha {fecha}</Text>
               <Text style = {styles.smallText}>Mesero: {mesero}</Text>
             </View>
           </View>
+
+          {/* Items ordenados de la cuenta */}
           <View style={{flex: 3, }}>
             {items.map((item)=>{
               return <OrderRow cantidad = {1} nombre = {item.nombre} costo = {item.precio} />
             })}
           </View>
+
+
+          {/* Acumulados de la cuenta */}
           <View style={{flex: 1,}}>
             <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Subtotal:</Text>

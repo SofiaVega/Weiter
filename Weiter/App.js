@@ -10,6 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConfirmacionPagoCliente from './components/ConfirmacionPagoCliente';
 import { firebaseDB } from './firebaseConfig';
 import { ref } from 'firebase/database'
+import CuentasAgrupadasClientes from './components/cuentasAgrupadasClientes';
 
 
 const Stack = createNativeStackNavigator();
@@ -23,12 +24,14 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           {/* Mesero */}
+          <Stack.Screen name="cuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
+          <Stack.Screen name="cuentaCliente" component={CuentaCliente} /> 
           <Stack.Screen name="mesas" component={Mesas} />
           <Stack.Screen name="editarOrdenMesa" component={EditarOrdenMesa} />
           <Stack.Screen name="menuMesero" component={MenuMesero} />
 
           {/* Cliente */}
-          <Stack.Screen name="cuentaCliente" component={CuentaCliente} /> 
+          {/* <Stack.Screen name="cuentaCliente" component={CuentaCliente} />  */}
           <Stack.Screen name="confirmacionPago" component={ConfirmacionPagoCliente} />
         </Stack.Navigator>
       </NavigationContainer>
