@@ -100,6 +100,10 @@ const Mesas = () => {
               new_rows.push(
                 [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
               )
+            } else if (estado == "pagada") {
+              new_rows.push(
+                [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+              )
             }
           }
           setRows([...new_rows]);
