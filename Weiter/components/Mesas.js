@@ -38,26 +38,15 @@ const Mesas = () => {
     //pasar el id del children (row) para editar solo esa
     console.log("abrir mesa")
     console.log(rows)
+    const mesaId = row_id + 1;
     console.log(rowsRef.current)
+    update(child(ref(firebaseDB),'restaurante1/mesas/' + mesaId + '/'), {
+      estado: 'abierta',
+      itemsMenu: '',
+    });
     const aux_arr = rowsRef.current
     aux_arr[row_id] = [row_id+1, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
     setRows([...aux_arr])
-    /*
-    const nextRows = rows.map(obj => {
-      console.log("holaa")
-      console.log(obj)
-      if (obj[0] === row_id) {
-        // Increment the clicked counter
-        return [row_id, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>];
-      } else {
-        // The rest haven't changed
-        return obj;
-      }
-    });
-    console.log("next rows")
-    console.log(nextRows);
-    setRows(nextRows);
-    */
 
   }
   const onEliminar = (row_id) => {
@@ -71,8 +60,12 @@ const Mesas = () => {
   const resetCuentaMesa = (mesaId) => {
     console.log("Se borra la cuenta")
     update(child(ref(firebaseDB),'restaurante1/mesas/' + mesaId + '/'), {
+      estado: 'cerrada',
       itemsMenu: '',
     });
+    const aux_arr = rowsRef.current
+    aux_arr[mesaId-1] = [mesaId, 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>];
+    setRows([...aux_arr])
   };
   //empezar todas como eliminar
   //leer ids del realtime firebase
@@ -115,7 +108,7 @@ const Mesas = () => {
               )
             } else if (estado == "pagada") {
               new_rows.push(
-                [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+                [ids[i], 'Pagada', <Button title="Eliminar" onPress={() => {resetCuentaMesa(ids[i]);}} color='#F9553A'>Cerrar Mesa</Button>]
               )
             }
           }
