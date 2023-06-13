@@ -25,7 +25,7 @@ export default function App() {
         <Stack.Navigator>
           {/* Mesero */}
           {/* <Stack.Screen name="editarOrdenMesa" component={EditarOrdenMesa} /> */}
-          {/* <Stack.Screen name="mesas" component={Mesas} /> */}
+          <Stack.Screen name="mesas" component={Mesas} />
           <Stack.Screen name="cuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
           <Stack.Screen name="cuentaCliente" component={CuentaCliente} /> 
           {/* <Stack.Screen name="mesas" component={Mesas} /> */}

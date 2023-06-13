@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { ref, get, child, set, push, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
@@ -7,6 +7,9 @@ import MenuRow from './MenuRow';
 const CuentaCliente = props => {
     const [nItems, setNItems] = useState([]);
     const numeroMesa = 1;
+    const [cantidades, setCantidades] = useState({});
+    const cantidadesRef = useRef({});
+    cantidadesRef.current = cantidades;
 
     //Cargar menu a pantalla
     if(nItems.length == 0){
@@ -33,12 +36,51 @@ const CuentaCliente = props => {
       }
     }
 
+    // Cargar cuenta para ver cantidad ordenada antes
+    // if(cantidades == {}){
+      
+    // }
+    
+
+    const getCantidad = (nombreItem) => {
+      get(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/')).then((snapshot) => {
+        console.log("ENTRASSSSS")
+        if (snapshot.exists()) {
+  
+          console.log(snapshot.val())
+          // console.log(typeof(snapshot.val()))
+          // cantidades[]
+          for(let k in snapshot.val()){
+            // console.log("dentro del for'")
+            // console.log(snapshot.val()[k].nombre)
+            // console.log(snapshot.val()[k].cantidad)
+            // cantidades[snapshot.val()[k].nombre] = snapshot.val()[k].cantidad
+            // setCantidades(cantidades)
+            if(snapshot.val()[k].nombre == nombreItem){
+              console.log("regreso")
+              console.log(snapshot.val()[k].cantidad)
+              return snapshot.val()[k].cantidad
+            }
+          }
+  
+          // console.log("resultdo final")
+          // console.log(cantidadesRef.current)
+        } else {
+          console.log("No data available here");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
     
     // Actualizar cantidad de los items en la cuenta de la mesa
     const handleCallback = (childData) => {
       const nombreItem = childData[0];
       const numeroItem = childData[1];
       const precioItem = getPrecio(nombreItem);
+      console.log("Nuevo número del item")
+      console.log(numeroItem)
       var flag = false;
 
       get(child(ref(firebaseDB),'restaurante1/mesas/'+ numeroMesa + '/itemsMenu')).then((snapshot) => {
@@ -102,8 +144,11 @@ const CuentaCliente = props => {
             <Text style={[styles.text,{flex: 2}]} >Menu</Text>
           </View>
           <View style={{flex: 4, }}>
+            {console.log("hola")}
+            {console.log(cantidadesRef.current)}
+            {console.log(cantidades)}
             {nItems.map((item)=>{
-              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback}  />
+              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback} cantidad = {getCantidad(item.nombre)}/>
             })}
           </View>
         </View>

@@ -3,11 +3,12 @@ import {StyleSheet, Text, View, Pressable} from 'react-native';
 
 
 const MenuRow = props => {
-    const [timesPressed, setTimesPressed] = useState(0);
+    const [timesPressed, setTimesPressed] = useState(props.cantidad);
+    console.log(props.cantidad)
 
     let textLog = '';
     if (timesPressed => 0) {
-      textLog = timesPressed + '';
+      textLog = timesPressed;
     } else if (timesPressed > 0) {
       textLog = '';
     }
@@ -34,7 +35,7 @@ const MenuRow = props => {
                 )}
             </Pressable>
             <View style={styles.logBox}>
-                <Text testID="pressable_press_console">{textLog}</Text>
+                <Text testID="pressable_press_console">{timesPressed}</Text>
             </View>
             <Pressable
                 onPress={() => {
