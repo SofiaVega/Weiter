@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { useNavigation } from "@react-navigation/native";
@@ -31,19 +31,33 @@ const Mesas = () => {
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
   const [tableIds, setTableIds] = useState([])
-  const [tableData, setTableData] = useState({
-    tableHead: ['No.', 'Estado', 'Acción'],
-    tableData: [],
-  });
-  const handleClick = () => {
-    setActive(!active);
-    setData(data);
-    
-  };
-  
-  const [rows, setRows] = useState([])
-  const onAbrirMesa = () => {
+  const [rows, setRows] = useState()
+  const rowsRef= useRef({});
+  rowsRef.current = rows;
+  const onAbrirMesa = (row_id) => {
     //pasar el id del children (row) para editar solo esa
+    console.log("abrir mesa")
+    console.log(rows)
+    console.log(rowsRef.current)
+    const aux_arr = rowsRef.current
+    aux_arr[row_id] = [row_id+1, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+    setRows([...aux_arr])
+    /*
+    const nextRows = rows.map(obj => {
+      console.log("holaa")
+      console.log(obj)
+      if (obj[0] === row_id) {
+        // Increment the clicked counter
+        return [row_id, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>];
+      } else {
+        // The rest haven't changed
+        return obj;
+      }
+    });
+    console.log("next rows")
+    console.log(nextRows);
+    setRows(nextRows);
+    */
 
   }
   const onEliminar = (row_id) => {
@@ -60,47 +74,46 @@ const Mesas = () => {
   
   useEffect(() => {
     console.log("hola")
-  console.log("aver ")
 
   // console.log(starCountRef)
-  console.log(tableIds)
-  console.log(rows)
-  if (tableData.tableData.length == 0){
-    setTableData({
-      tableHead: ['No.', 'Estado', 'Acción'],
-      tableData: rows,
-    })
-  }
-  if (tableIds.length == 0){
-    console.log("data from firebase")
-    setTableData({
-      tableHead: ['No.', 'Estado', 'Acción'],
-      tableData: rows,
-    })
-    get(child(ref(firebaseDB),'restaurante1/mesas')).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-        const prueba = snapshot.toJSON();
-        const ids = Object.keys(prueba)
-        console.log(prueba);
-        console.log(ids)
-        setTableIds(ids);
-        console.log(tableIds);
-        var new_rows = [];
-        for (let i = 0; i < ids.length; i++) {
-          console.log(ids[i]);
-          new_rows.push(
-            [ids[i], 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>]);
+    console.log(tableIds)
+    console.log("rows")
+    console.log(rows)
+    if (tableIds.length == 0){
+      console.log("data from firebase")
+      get(child(ref(firebaseDB),'restaurante1/mesas')).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          const prueba = snapshot.toJSON();
+          const ids = Object.keys(prueba)
+          console.log(prueba);
+          console.log(ids)
+          setTableIds(ids);
+          console.log(tableIds);
+          var new_rows = [];
+          for (let i = 0; i < ids.length; i++) {
+            const estado = prueba[ids[i]]["estado"]
+            if (estado == "cerrada"){
+              new_rows.push(
+                [ids[i], 'Cerrada', <Button onPress={()=>onAbrirMesa(i)} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>]);
+            } else if (estado == "abierta") {
+              new_rows.push(
+                [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+              )
+            }
+          }
+          setRows([...new_rows]);
+        } else {
+          console.log("No data available");
         }
-        setRows(new_rows);
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-    }, [tableIds, rows, tableData]);
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
+    console.log("rows")
+    console.log(rows)
+    }, [tableIds, rows]);
   
   // const starCountRef = ref(firebaseDB, 'mesa/mesaId');
 
@@ -113,8 +126,8 @@ const Mesas = () => {
     </View>
       <View style={styles.container}>
           <Table>
-              <Row data={tableData.tableHead} style={styles.head} textStyle={styles.headText} />
-              <Rows data={tableData.tableData} textStyle={styles.text} />
+              <Row data={['No.', 'Estado', 'Acción']} style={styles.head} textStyle={styles.headText} />
+              <Rows data={rows} textStyle={styles.text} />
           </Table>
       </View>
     </>
