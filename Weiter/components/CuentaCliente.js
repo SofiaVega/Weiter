@@ -22,8 +22,15 @@ const CuentaCliente = ({route, navigation}) => {
   const [subtotal,setSubtotal] = useState(0);
   const subtotalRef = useRef({});
   subtotalRef.current = subtotal;
+ 
 
-
+  const pagarCuenta = () => {
+    console.log("cuenta pagada")
+    update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
+      estado: 'cerrada',
+      itemsMenu: '',
+    });
+  }
   //Cargar cuenta
   if(items.length == 0){
     get(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/itemsMenu/')).then((snapshot) => {
@@ -94,7 +101,7 @@ const CuentaCliente = ({route, navigation}) => {
               <Text style = {styles.smallText}>AGREGAR PROPINA</Text>
             </Pressable>
             <ModalPropina isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} propina={propina} setPropina = {setPropina}></ModalPropina>
-            <Pressable style = {styles.boton}>
+            <Pressable style = {styles.boton} onPress = {pagarCuenta}>
               <Text style = {styles.smallText}>PAGAR</Text>
             </Pressable>
           </View>

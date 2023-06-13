@@ -50,14 +50,6 @@ const Mesas = () => {
     setRows([...aux_arr])
 
   }
-  const onEliminar = (row_id) => {
-    //pasar el id del children (row) para editar solo esa
-    // change table data to state and create new array to modify it
-    //var aux_arr = rows;
-    //aux_arr[row_id] = ['2', 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>];
-    //setRows(aux_arr);
-  };
-
   const resetCuentaMesa = (mesaId) => {
     console.log("Se borra la cuenta")
     update(child(ref(firebaseDB),'restaurante1/mesas/' + mesaId + '/'), {
