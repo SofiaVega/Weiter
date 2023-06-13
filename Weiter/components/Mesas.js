@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { useNavigation } from "@react-navigation/native";
-import { ref, get, child, database } from 'firebase/database'
+import { ref, get, child, database, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 
 const styles = StyleSheet.create({
@@ -68,8 +68,21 @@ const Mesas = () => {
     //setRows(aux_arr);
   };
 
+  const resetCuentaMesa = (mesaId) => {
+    console.log("Se borra la cuenta")
+    update(child(ref(firebaseDB),'restaurante1/mesas/' + mesaId + '/'), {
+      itemsMenu: '',
+    });
+  };
   //empezar todas como eliminar
   //leer ids del realtime firebase
+  /*
+  tableData: [
+        ['1', 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>],
+        ['2', 'Pagada', <Button title="Eliminar" onPress={() => {resetCuentaMesa(1);}} color='#F9553A'>Cerrar Mesa</Button>],
+        ['3', 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>],
+    ],
+  */
 
   
   useEffect(() => {
