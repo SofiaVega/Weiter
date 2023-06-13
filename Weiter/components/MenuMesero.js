@@ -9,24 +9,36 @@ const CuentaCliente = props => {
     const numeroMesa = 1;
 
     //Cargar menu a pantalla
-    get(child(ref(firebaseDB),'restaurante1/menu/menus')).then((snapshot) => {
-      if (snapshot.exists()) {
+    if(nItems.length == 0){
+      get(child(ref(firebaseDB),'restaurante1/menu/menus')).then((snapshot) => {
+        if (snapshot.exists()) {
+  
+          const prueba = snapshot.toJSON();
+          const data = JSON.parse(prueba);
+          setNItems(data.items);
+          console.log("AQUIIIIII")
+        } else {
+          console.log("No data available here");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
 
-        const prueba = snapshot.toJSON();
-        const data = JSON.parse(prueba);
-        setNItems(data.items);
-      } else {
-        console.log("No data available here");
+    const getPrecio = (nombreItem) => {
+      for(let k in nItems){
+        if(nItems[k].nombre == nombreItem){
+          return nItems[k].precio
+        }
       }
-    }).catch((error) => {
-      console.error(error);
-    });
+    }
 
     
     // Actualizar cantidad de los items en la cuenta de la mesa
     const handleCallback = (childData) => {
       const nombreItem = childData[0];
       const numeroItem = childData[1];
+      const precioItem = getPrecio(nombreItem);
       var flag = false;
 
       get(child(ref(firebaseDB),'restaurante1/mesas/'+ numeroMesa + '/itemsMenu')).then((snapshot) => {
@@ -39,6 +51,7 @@ const CuentaCliente = props => {
             push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
               nombre: nombreItem,
               cantidad: numeroItem,
+              precio: precioItem,
             });
 
           }else{
@@ -61,6 +74,7 @@ const CuentaCliente = props => {
               push(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/'), {
                 nombre: nombreItem,
                 cantidad: numeroItem,
+                precio: precioItem,
               });
             }
 
