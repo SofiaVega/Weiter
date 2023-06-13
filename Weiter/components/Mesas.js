@@ -34,6 +34,7 @@ const Mesas = () => {
   const [rows, setRows] = useState()
   const rowsRef= useRef({});
   rowsRef.current = rows;
+
   const onAbrirMesa = (row_id) => {
     //pasar el id del children (row) para editar solo esa
     console.log("abrir mesa")
@@ -64,7 +65,7 @@ const Mesas = () => {
       itemsMenu: '',
     });
     const aux_arr = rowsRef.current
-    aux_arr[mesaId-1] = [mesaId, 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>];
+    aux_arr[mesaId-1] = [mesaId, 'Cerrada', <Button onPress={()=>onAbrirMesa(mesaId-1)} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>];
     setRows([...aux_arr])
   };
   //empezar todas como eliminar
@@ -76,6 +77,7 @@ const Mesas = () => {
         ['3', 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>],
     ],
   */
+
 
   
   useEffect(() => {
