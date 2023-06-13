@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 
 
-
 const MenuRow = props => {
     const [timesPressed, setTimesPressed] = useState(0);
 
@@ -19,12 +18,15 @@ const MenuRow = props => {
     } else if (timesPressed > 0) {
       textLog = '';
     }
+
     return <View style={[{flexDirection: 'row'}]}>
         <Text style={{flex: 3}} >{props.nombre}</Text>
         <View style={{flexDirection:'row'}}>
             <Pressable
                 onPress={() => {
                 setTimesPressed(current => current - 1);
+                // console.log(timesPressed)
+                props.parentCallback([props.nombre,timesPressed - 1]);
                 }}
             >
                 {({pressed}) => (
@@ -37,6 +39,7 @@ const MenuRow = props => {
             <Pressable
                 onPress={() => {
                 setTimesPressed(current => current + 1);
+                props.parentCallback([props.nombre,timesPressed + 1]);
                 }}
             >
                 {({pressed}) => (
