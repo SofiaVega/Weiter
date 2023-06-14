@@ -3,6 +3,7 @@ import { Button, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { useNavigation } from "@react-navigation/native";
 import { ref, get, child, update } from 'firebase/database'
+import { collection, doc, setDoc } from "firebase/firestore";
 import { firebaseDB } from '../firebaseConfig';
 import { firestoreDB } from '../firebaseConfig';
 
@@ -63,8 +64,18 @@ const Mesas = () => {
     }
 
     */
-    const testFirestore = () => {
-      const registrosCollectionRef = firestoreDB.collection('registros');
+    const testFirestore = async() => {
+
+      const regRef = collection(firestoreDB, "registros");
+      const fechaActual = new Date();
+
+    await setDoc(doc(regRef, "ID"), {
+        name: "SNAPSHOT", date: fechaActual, country: "Mexico" });
+      /*
+      const col= collection(firestoreDB, "registros")
+      console.log(col);
+      const registrosCollectionRef = ref(firestoreDB).collection('registros');
+      console.log(registrosCollectionRef);
       registrosCollectionRef.get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -75,8 +86,11 @@ const Mesas = () => {
         .catch((error) => {
           console.error('Error al obtener los documentos:', error);
         });
+      */
     };
 
+
+    /*
     const addFirestore = async () => {
       const registrosCollectionRef = firestoreDB.collection('registros');
       registrosCollectionRef.get().then((querySnapshot) => {
@@ -101,7 +115,8 @@ const Mesas = () => {
       } catch (error) {
         console.error('Error al agregar el registro:', error);
       }
-    }
+    };
+    */
   
 
     
