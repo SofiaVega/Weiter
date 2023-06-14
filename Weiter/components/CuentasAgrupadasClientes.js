@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { ref, get, child } from 'firebase/database'
+import { ref, get, child } from 'firebase/database';
 import { firebaseDB } from '../firebaseConfig';
 
 
@@ -48,7 +48,7 @@ const CuentasAgrupadasClientes = ({navi}) => {
             {/* {consoloe} */}
             {cuentas.map((cuenta, i)=>{
               return(
-                <Pressable style = {styles.boton} onPress={() => navigation.navigate('cuentaCliente',i+1)}>
+                <Pressable style = {styles.boton} onPress={() => navigation.navigate('CuentaCliente',i+1)}>
                     <Text style = {styles.smallText}>Mesa {i+1}</Text>
                 </Pressable>
               );})}

@@ -4,6 +4,7 @@ import OrderRow from './OrderRow';
 import ModalPropina from './ModalPropina';
 import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
 
 const CuentaCliente = ({route, navigation}) => {
   const [items, setItems] = useState([]);
@@ -22,7 +23,7 @@ const CuentaCliente = ({route, navigation}) => {
   const [subtotal,setSubtotal] = useState(0);
   const subtotalRef = useRef({});
   subtotalRef.current = subtotal;
- 
+  const navigationStrippe = useNavigation();
 
   const pagarCuenta = () => {
     console.log("cuenta pagada")
@@ -31,6 +32,8 @@ const CuentaCliente = ({route, navigation}) => {
       estado: 'cerrada',
       itemsMenu: '',
     });
+
+    navigationStrippe.navigate('PagoStrippe')
   }
   //Cargar cuenta
   if(items.length == 0){
@@ -102,6 +105,7 @@ const CuentaCliente = ({route, navigation}) => {
               <Text style = {styles.smallText}>AGREGAR PROPINA</Text>
             </Pressable>
             <ModalPropina isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} propina={propina} setPropina = {setPropina}></ModalPropina>
+            {/* <Pressable onPress={() => {navigationStrippe.navigate('PagoStrippe')}} style = {styles.boton}> */}
             <Pressable style = {styles.boton} onPress = {pagarCuenta}>
               <Text style = {styles.smallText}>PAGAR</Text>
             </Pressable>
