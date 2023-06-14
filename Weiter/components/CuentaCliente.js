@@ -26,14 +26,13 @@ const CuentaCliente = ({route, navigation}) => {
   const navigationStrippe = useNavigation();
 
   const pagarCuenta = () => {
-    console.log("cuenta pagada")
-    console.log(param)
+    /*
     update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
       estado: 'cerrada',
       itemsMenu: '',
-    });
+    });*/
 
-    navigationStrippe.navigate('PagoStrippe')
+    navigationStrippe.navigate('PagoStrippe', param)
   }
   //Cargar cuenta
   if(items.length == 0){

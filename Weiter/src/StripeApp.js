@@ -2,11 +2,30 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { ref, get, child, update } from 'firebase/database'
+import { firebaseDB } from '../firebaseConfig';
 
 //ADD localhost address of your server
-const API_URL = "http://localhost:3000";
+const API_URL = "https://c68f-131-178-102-168.ngrok-free.app";
 
 const StripeApp = props => {
+  console.log("llego a strip app")
+  console.log(props)
+  console.log(props.mesa)
+
+  const param = props.mesa;
+
+  const pagarCuenta = () => {
+    console.log("cuenta pagada")
+    console.log(param)
+    update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
+      estado: 'cerrada',
+      itemsMenu: '',
+    });
+    navigationPayment.navigate('ConfirmacionPago')
+
+  }
+
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
@@ -49,7 +68,7 @@ const StripeApp = props => {
             Alert.alert('Pago exitoso', 'Gracias', [
                 {
                   text: 'OK',
-                  onPress: () => navigationPayment.navigate('ConfirmacionPago'),
+                  onPress: () => pagarCuenta(),
                 },
               ]);
 

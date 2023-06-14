@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
     },
 })
 
-const PagoStrippe = () => {
+const PagoStrippe = ({route}) => {
     return (
 
         <StripeProvider publishableKey="pk_live_51NHcToHeDagzFAimyQJrSSjwsms6l8NMgSRkH3Be3TYlxdy5a5bJwXMTxjiQh8KZS6ryUovhcbIggEtSaMeESY6O00rpayVJej">
-        <StripeApp />
+        <StripeApp mesa= {route.params} />
         </StripeProvider>
   
     )
