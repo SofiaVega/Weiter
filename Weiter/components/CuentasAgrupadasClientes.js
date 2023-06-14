@@ -48,7 +48,7 @@ const CuentasAgrupadasClientes = ({navi}) => {
             {/* {consoloe} */}
             {cuentas.map((cuenta, i)=>{
               return(
-                <Pressable style = {styles.boton} onPress={() => navigation.navigate('cuentaCliente',i+1)}>
+                <Pressable style = {styles.boton} onPress={() => navigation.navigate('CuentaCliente',i+1)}>
                     <Text style = {styles.smallText}>Mesa {i+1}</Text>
                 </Pressable>
               );})}
