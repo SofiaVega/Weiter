@@ -4,7 +4,7 @@ import { ref, get, child, set, push, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 import MenuRow from './MenuRow';
 
-const CuentaCliente = props => {
+const MenuMesero = props => {
     const [nItems, setNItems] = useState([]);
     const numeroMesa = 1;
 
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default CuentaCliente;
+export default MenuMesero;
