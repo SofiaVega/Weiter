@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { ref, get, child, set, push, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
@@ -6,6 +6,9 @@ import MenuRow from './MenuRow';
 
 const MenuMesero = ({route, navigation}) => {
     const [nItems, setNItems] = useState([]);
+    const [cuentas, setCuentas] = useState([]);
+    const cuentasRef = useRef({});
+    cuentasRef.current = cuentas;
     const numeroMesa = route.params;
     console.log("ID DE LA MESA ")
     console.log(numeroMesa)
@@ -33,6 +36,30 @@ const MenuMesero = ({route, navigation}) => {
           return nItems[k].precio
         }
       }
+    }
+
+    //cuentas
+    if(cuentas.length == 0){
+
+      get(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log("AQUI?")
+          console.log(snapshot.val());
+          const prueba = snapshot.toJSON();
+          console.log(prueba)
+          const temp = {}
+          for(let k in prueba){
+            temp[prueba[k].nombre] = prueba[k].cantidad
+          }
+          console.log(temp)
+          setCuentas(temp)
+          
+        } else {
+          console.log("No data available here !");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
     }
 
     
@@ -105,7 +132,7 @@ const MenuMesero = ({route, navigation}) => {
           </View>
           <View style={{flex: 4, }}>
             {nItems.map((item)=>{
-              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback}  />
+              return <MenuRow nombre = {item.nombre} cantidad = {cuentas[item.nombre]} parentCallback ={handleCallback}  />
             })}
           </View>
         </View>

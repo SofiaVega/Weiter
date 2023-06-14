@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 
 
 const MenuRow = props => {
+    console.log(props)
+    console.log(props.cantidad)
     const [timesPressed, setTimesPressed] = useState(0);
+
+    useEffect(() => {
+      setTimesPressed(props.cantidad)
+    },[props])
+
+
 
     let textLog = '';
     if (timesPressed => 0) {
