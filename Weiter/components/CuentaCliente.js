@@ -5,7 +5,7 @@ import ModalPropina from './ModalPropina';
 import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 import { firestoreDB } from '../firebaseConfig';
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs } from "firebase/firestore";
 import { useNavigation } from '@react-navigation/native';
 
 const CuentaCliente = ({route, navigation}) => {
@@ -34,6 +34,20 @@ const CuentaCliente = ({route, navigation}) => {
     const fechaActual = new Date();
     const regRef = collection(firestoreDB, "registros");
     const id = param+fechaActual;
+    ////Para imprimir registros
+    const querySnapshot = await getDocs(collection(firestoreDB, "registros"));
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(`${doc.id} => ${data.country}`);
+        console.log(`${doc.id} => ${data.name}`);
+        console.log(`${doc.id} => ${data.date}`);
+        console.log(`${doc.id} => ${data.pedidos.hamburguesa}`);
+        console.log(`${doc.id} => ${data.pedidos.coca}`);
+        console.log(`${doc.id} => ${data.propina}`);
+        console.log(`${doc.id} => ${data.total}`);
+        console.log(`${doc.id} => ${doc.data()}`);
+    });
+    ///////
     
 
     for (const key in items) {
