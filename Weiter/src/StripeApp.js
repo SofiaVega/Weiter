@@ -6,7 +6,7 @@ import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 
 //ADD localhost address of your server
-const API_URL = "https://c68f-131-178-102-168.ngrok-free.app";
+const API_URL = "https://weiter.onrender.com";
 
 const StripeApp = props => {
   console.log("llego a strip app")
