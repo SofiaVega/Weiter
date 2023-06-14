@@ -70,7 +70,7 @@ const DashboardAdmin = () => {
         <>
             <Text style={styles.texto}>Dashboard Admin</Text>
 
-            {/* {displayInstances()} */}
+            {displayInstances()}
         </>
     )
     

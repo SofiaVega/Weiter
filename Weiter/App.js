@@ -34,7 +34,7 @@ export default function App() {
           {/* Mesero */}
           {/* <Stack.Screen name="editarOrdenMesa" component={EditarOrdenMesa} /> */}
           {/*<Stack.Screen name="Mesas" component={Mesas} /> */}
-          <Stack.Screen name="DashboardAdmin" component={DashboardAdmin} />
+          {/* <Stack.Screen name="DashboardAdmin" component={DashboardAdmin} /> */}
           <Stack.Screen name="CuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
           <Stack.Screen name="CuentaCliente" component={CuentaCliente} /> 
           {/* <Stack.Screen name="mesas" component={Mesas} /> */}
