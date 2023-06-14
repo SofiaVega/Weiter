@@ -13,10 +13,12 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-app.post("/create-payment-intent", async (req, res) => {
+app.post("/create-payment-intent/:money", async (req, res) => {
     try {
+      console.log("params")
+      const money = req.params.money
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: 2000, //lowest denomination of particular currency
+        amount: money, //lowest denomination of particular currency
         currency: "mxn",
         payment_method_types: ["card"], //by default
       });

@@ -6,14 +6,17 @@ import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 
 //ADD localhost address of your server
-const API_URL = "https://weiter.onrender.com";
+//const API_URL = "https://weiter.onrender.com";
+const API_URL = "https://47fd-131-178-102-168.ngrok-free.app";
 
 const StripeApp = props => {
   console.log("llego a strip app")
   console.log(props)
   console.log(props.mesa)
+  console.log(props.cantidad)
 
   const param = props.mesa;
+  const paymentAmount = props.cantidad
 
   const pagarCuenta = () => {
     console.log("cuenta pagada")
@@ -32,7 +35,7 @@ const StripeApp = props => {
   const navigationPayment =useNavigation();
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(`${API_URL}/create-payment-intent`, {
+    const response = await fetch(`${API_URL}/create-payment-intent/${paymentAmount}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
