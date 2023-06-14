@@ -35,6 +35,7 @@ const CuentaCliente = ({route, navigation}) => {
     const regRef = collection(firestoreDB, "registros");
     const id = param+fechaActual;
     ////Para imprimir registros
+    /*
     const querySnapshot = await getDocs(collection(firestoreDB, "registros"));
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -47,6 +48,7 @@ const CuentaCliente = ({route, navigation}) => {
         console.log(`${doc.id} => ${data.total}`);
         console.log(`${doc.id} => ${doc.data()}`);
     });
+    */
     ///////
     
 
