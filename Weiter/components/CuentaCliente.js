@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
 import ModalPropina from './ModalPropina';
-import { ref, get, child } from 'firebase/database'
+import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,7 +25,16 @@ const CuentaCliente = ({route, navigation}) => {
   subtotalRef.current = subtotal;
   const navigationStrippe = useNavigation();
 
+  const pagarCuenta = () => {
+    console.log("cuenta pagada")
+    console.log(param)
+    update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
+      estado: 'cerrada',
+      itemsMenu: '',
+    });
 
+    navigationStrippe.navigate('PagoStrippe')
+  }
   //Cargar cuenta
   if(items.length == 0){
     get(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/itemsMenu/')).then((snapshot) => {
@@ -88,7 +97,7 @@ const CuentaCliente = ({route, navigation}) => {
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Total:</Text>
-              <Text style={{flex: 1,textAlign: 'right'}} >${ subtotal + (subtotal*0.16) + (subtotal*propina*0.01).toFixed(2)}</Text>
+              <Text style={{flex: 1,textAlign: 'right'}} >${ (subtotal + (subtotal*0.16) + (subtotal*propina*0.01)).toFixed(2)}</Text>
             </View>
           </View>
           <View style={{flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center',}}>
@@ -96,7 +105,8 @@ const CuentaCliente = ({route, navigation}) => {
               <Text style = {styles.smallText}>AGREGAR PROPINA</Text>
             </Pressable>
             <ModalPropina isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} propina={propina} setPropina = {setPropina}></ModalPropina>
-            <Pressable onPress={() => {navigationStrippe.navigate('PagoStrippe')}} style = {styles.boton}>
+            {/* <Pressable onPress={() => {navigationStrippe.navigate('PagoStrippe')}} style = {styles.boton}> */}
+            <Pressable style = {styles.boton} onPress = {pagarCuenta}>
               <Text style = {styles.smallText}>PAGAR</Text>
             </Pressable>
           </View>
