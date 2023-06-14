@@ -4,7 +4,14 @@ import {StyleSheet, Text, View, Pressable} from 'react-native';
 
 const MenuRow = props => {
     const [timesPressed, setTimesPressed] = useState(props.cantidad);
-    console.log(props.cantidad)
+    // console.log("PROBANDO")
+    // console.log(props.cantidad)
+
+    // if(props.cantidad == null){
+    //   console.log("es null")
+    //   // console.log(getCantidad(props.nombre))
+
+    // }
 
     let textLog = '';
     if (timesPressed => 0) {

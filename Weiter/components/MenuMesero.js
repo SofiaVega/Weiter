@@ -6,6 +6,9 @@ import MenuRow from './MenuRow';
 
 const CuentaCliente = props => {
     const [nItems, setNItems] = useState([]);
+    const [cuentas, setCuentas] = useState([]);
+    const cuentasRef = useRef({});
+    cuentasRef.current = cuentas;
     const numeroMesa = 1;
     const [cantidades, setCantidades] = useState({});
     const cantidadesRef = useRef({});
@@ -36,37 +39,30 @@ const CuentaCliente = props => {
       }
     }
 
-    // Cargar cuenta para ver cantidad ordenada antes
-    // if(cantidades == {}){
-      
-    // }
-    
+    //cuentas
+    if(cuentas.length == 0){
 
-    const getCantidad = (nombreItem) => {
       get(child(ref(firebaseDB),'restaurante1/mesas/' + numeroMesa + '/itemsMenu/')).then((snapshot) => {
-        console.log("ENTRASSSSS")
         if (snapshot.exists()) {
-  
-          console.log(snapshot.val())
-          // console.log(typeof(snapshot.val()))
-          // cantidades[]
-          for(let k in snapshot.val()){
-            // console.log("dentro del for'")
-            // console.log(snapshot.val()[k].nombre)
-            // console.log(snapshot.val()[k].cantidad)
-            // cantidades[snapshot.val()[k].nombre] = snapshot.val()[k].cantidad
-            // setCantidades(cantidades)
-            if(snapshot.val()[k].nombre == nombreItem){
-              console.log("regreso")
-              console.log(snapshot.val()[k].cantidad)
-              return snapshot.val()[k].cantidad
-            }
+          console.log("AQUI?")
+          console.log(snapshot.val());
+          const prueba = snapshot.toJSON();
+          console.log(prueba)
+          // const data = JSON.parse(prueba);
+          // setCuentas(data.items);
+          const temp = {}
+          for(let k in prueba){
+            // console.log(prueba[k].cantidad)
+            // console.log(prueba[k].nombre)
+            temp[prueba[k].nombre] = prueba[k].cantidad
           }
-  
-          // console.log("resultdo final")
-          // console.log(cantidadesRef.current)
+
+          console.log(temp)
+          setCuentas(temp)
+          cuentasRef = temp
+          
         } else {
-          console.log("No data available here");
+          console.log("No data available here !");
         }
       }).catch((error) => {
         console.error(error);
@@ -144,11 +140,12 @@ const CuentaCliente = props => {
             <Text style={[styles.text,{flex: 2}]} >Menu</Text>
           </View>
           <View style={{flex: 4, }}>
-            {console.log("hola")}
+            {/* {console.log("hola")}
             {console.log(cantidadesRef.current)}
-            {console.log(cantidades)}
+            {console.log(cantidades)} */}
+            {console.log(cuentasRef)}
             {nItems.map((item)=>{
-              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback} cantidad = {getCantidad(item.nombre)}/>
+              return <MenuRow nombre = {item.nombre} parentCallback ={handleCallback} cantidad = {cuentasRef.current[item.nombre]}/>
             })}
           </View>
         </View>
