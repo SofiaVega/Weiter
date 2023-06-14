@@ -42,8 +42,10 @@ const CuentaCliente = ({route, navigation}) => {
         console.log(`${doc.id} => ${data.country}`);
         console.log(`${doc.id} => ${data.name}`);
         console.log(`${doc.id} => ${data.date}`);
-        console.log(`${doc.id} => ${data.pedidos.hamburguesa}`);
-        console.log(`${doc.id} => ${data.pedidos.coca}`);
+
+        for (const pedido in data.pedidos) {
+          console.log(`${doc.id} => ${pedido}: ${data.pedidos[pedido]}`);
+        }
         console.log(`${doc.id} => ${data.propina}`);
         console.log(`${doc.id} => ${data.total}`);
         console.log(`${doc.id} => ${doc.data()}`);
