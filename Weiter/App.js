@@ -25,16 +25,16 @@ export default function App() {
         <Stack.Navigator>
           {/* Mesero */}
           {/* <Stack.Screen name="editarOrdenMesa" component={EditarOrdenMesa} /> */}
-          {/* <Stack.Screen name="mesas" component={Mesas} /> */}
-          <Stack.Screen name="cuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
-          <Stack.Screen name="cuentaCliente" component={CuentaCliente} /> 
+          { <Stack.Screen name="Mesas" component={Mesas} /> }
+          <Stack.Screen name="CuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
+          <Stack.Screen name="CuentaCliente" component={CuentaCliente} /> 
           {/* <Stack.Screen name="mesas" component={Mesas} /> */}
           
-          <Stack.Screen name="menuMesero" component={MenuMesero} />
+          <Stack.Screen name="MenuMesero" component={MenuMesero} />
 
           {/* Cliente */}
           {/* <Stack.Screen name="cuentaCliente" component={CuentaCliente} />  */}
-          <Stack.Screen name="confirmacionPago" component={ConfirmacionPagoCliente} />
+          <Stack.Screen name="ConfirmacionPago" component={ConfirmacionPagoCliente} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -46,7 +46,7 @@ const Mesas = () => {
   var tableData = {
     tableHead: ['No.', 'Estado', 'Acción'],
     tableData: [
-        ['1', 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('menuMesero')} color='#C8B8FF' visible={false}>Editar</Button>],
+        ['1', 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('MenuMesero')} color='#C8B8FF' visible={false}>Editar</Button>],
         ['2', 'Pagada', <Button title="Eliminar" onPress={() => {resetCuentaMesa(1);}} color='#F9553A'>Cerrar Mesa</Button>],
         ['3', 'Cerrada', <Button onPress={handleClick} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>],
     ],
