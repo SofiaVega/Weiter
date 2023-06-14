@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import Mesas from './components/Mesas';
 import EditarOrdenMesa from './components/EditarOrdenMesa';
 import CuentaCliente from './components/CuentaCliente';
+import DashboardAdmin from './components/DashboardAdmin';
 import MenuMesero from './components/MenuMesero';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -33,6 +34,7 @@ export default function App() {
           {/* Mesero */}
           {/* <Stack.Screen name="editarOrdenMesa" component={EditarOrdenMesa} /> */}
           {/*<Stack.Screen name="Mesas" component={Mesas} /> */}
+          {/* <Stack.Screen name="DashboardAdmin" component={DashboardAdmin} /> */}
           <Stack.Screen name="CuentasAgrupadasClientes" component={CuentasAgrupadasClientes} /> 
           <Stack.Screen name="CuentaCliente" component={CuentaCliente} /> 
           {/* <Stack.Screen name="mesas" component={Mesas} /> */}
