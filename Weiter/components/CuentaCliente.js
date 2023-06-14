@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import OrderRow from './OrderRow';
 import ModalPropina from './ModalPropina';
-import { ref, get, child } from 'firebase/database'
+import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 
 const CuentaCliente = ({route, navigation}) => {
@@ -26,6 +26,7 @@ const CuentaCliente = ({route, navigation}) => {
 
   const pagarCuenta = () => {
     console.log("cuenta pagada")
+    console.log(param)
     update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
       estado: 'cerrada',
       itemsMenu: '',
