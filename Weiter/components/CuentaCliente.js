@@ -94,7 +94,7 @@ const CuentaCliente = ({route, navigation}) => {
             </View>
             <View style={{flex: 1, flexDirection: 'row', padding: 2}}>
               <Text style={{flex: 1}} >Total:</Text>
-              <Text style={{flex: 1,textAlign: 'right'}} >${ subtotal + (subtotal*0.16) + (subtotal*propina*0.01).toFixed(2)}</Text>
+              <Text style={{flex: 1,textAlign: 'right'}} >${ (subtotal + (subtotal*0.16) + (subtotal*propina*0.01)).toFixed(2)}</Text>
             </View>
           </View>
           <View style={{flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center',}}>

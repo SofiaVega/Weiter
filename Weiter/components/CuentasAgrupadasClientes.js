@@ -14,6 +14,7 @@ const CuentasAgrupadasClientes = ({navi}) => {
         get(child(ref(firebaseDB),'restaurante1/mesas/')).then((snapshot) => {
             if (snapshot.exists()) {
               setCuentas(snapshot.val())
+              setCuentas([1,2,3,4,5])
               
             } else {
               console.log("No data available here");
@@ -33,10 +34,12 @@ const CuentasAgrupadasClientes = ({navi}) => {
             },
           ]}>
             <Text style={[styles.text,]} >Elige el número de tu mesa</Text>
+            {console.log("cuentassss")}
+            {console.log(cuentas)}
             {cuentas.map((cuenta, i)=>{
               return(
-                <Pressable style = {styles.boton} onPress={() => navigation.navigate('cuentaCliente',i)}>
-                    <Text style = {styles.smallText}>Mesa {i}</Text>
+                <Pressable style = {styles.boton} onPress={() => navigation.navigate('cuentaCliente',i+1)}>
+                    <Text style = {styles.smallText}>Mesa {cuenta}</Text>
                 </Pressable>
               );})}
 
