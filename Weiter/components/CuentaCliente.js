@@ -72,8 +72,11 @@ const CuentaCliente = ({route, navigation}) => {
       estado: 'cerrada',
       itemsMenu: '',
     });*/
-
-    navigationStrippe.navigate('PagoStrippe', param)
+    const paymentAmount = Math.floor(((subtotal + (subtotal*0.16) + (subtotal*propina*0.01)).toFixed(2))*100);
+    console.log("payment amount")
+    console.log(param)
+    console.log(paymentAmount)
+    navigationStrippe.navigate('PagoStrippe', {param, paymentAmount});
   }
   //Cargar cuenta
   if(items.length == 0){

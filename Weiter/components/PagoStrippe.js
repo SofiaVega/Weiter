@@ -23,10 +23,16 @@ const styles = StyleSheet.create({
 })
 
 const PagoStrippe = ({route}) => {
+    console.log("pago strippe")
+    console.log(route)
+    const mesaId = route.params.param
+    const cantidad = route.params.paymentAmount
+    console.log(mesaId)
+    console.log(cantidad)
     return (
 
         <StripeProvider publishableKey="pk_live_51NHcToHeDagzFAimyQJrSSjwsms6l8NMgSRkH3Be3TYlxdy5a5bJwXMTxjiQh8KZS6ryUovhcbIggEtSaMeESY6O00rpayVJej">
-        <StripeApp mesa= {route.params} />
+        <StripeApp mesa= {mesaId} cantidad = {cantidad}/>
         </StripeProvider>
   
     )
