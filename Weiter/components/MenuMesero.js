@@ -51,6 +51,12 @@ const MenuMesero = ({route, navigation}) => {
           for(let k in prueba){
             temp[prueba[k].nombre] = prueba[k].cantidad
           }
+          for (let i in nItems){
+            const name = nItems[i]["nombre"];
+            if (temp[name] == undefined){
+              temp[name] = 0;
+            }
+          }
           console.log(temp)
           setCuentas(temp)
           
@@ -131,7 +137,7 @@ const MenuMesero = ({route, navigation}) => {
             <Text style={[styles.text,{flex: 2}]} >Menu</Text>
           </View>
           <View style={{flex: 4, }}>
-            {nItems.map((item)=>{
+            {nItems.map((item)=>{              
               return <MenuRow nombre = {item.nombre} cantidad = {cuentas[item.nombre]} parentCallback ={handleCallback}  />
             })}
           </View>
