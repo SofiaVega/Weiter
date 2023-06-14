@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const Mesas = () => {
+const Mesas = ()  => {
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
   const [tableIds, setTableIds] = useState([])
@@ -46,7 +46,7 @@ const Mesas = () => {
       itemsMenu: '',
     });
     const aux_arr = rowsRef.current
-    aux_arr[row_id] = [row_id+1, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('MenuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+    aux_arr[row_id] = [row_id+1, 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('MenuMesero',row_id+1)} color='#C8B8FF' visible={false}>Editar</Button>]
     setRows([...aux_arr])
 
   }
@@ -98,7 +98,7 @@ const Mesas = () => {
                 [ids[i], 'Cerrada', <Button onPress={()=>onAbrirMesa(i)} title="Abrir Mesa" color={active ? "black" : "#03ea60"}></Button>]);
             } else if (estado == "abierta") {
               new_rows.push(
-                [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('MenuMesero')} color='#C8B8FF' visible={false}>Editar</Button>]
+                [ids[i], 'Abierta', <Button title="Editar" onPress={() => navigation.navigate('MenuMesero',ids[i])} color='#C8B8FF' visible={false}>Editar</Button>]
               )
             } else if (estado == "pagada") {
               new_rows.push(

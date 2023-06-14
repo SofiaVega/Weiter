@@ -4,9 +4,11 @@ import { ref, get, child, set, push, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
 import MenuRow from './MenuRow';
 
-const CuentaCliente = props => {
+const MenuMesero = ({route, navigation}) => {
     const [nItems, setNItems] = useState([]);
-    const numeroMesa = 1;
+    const numeroMesa = route.params;
+    console.log("ID DE LA MESA ")
+    console.log(numeroMesa)
 
     //Cargar menu a pantalla
     if(nItems.length == 0){
@@ -137,4 +139,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default CuentaCliente;
+export default MenuMesero;
