@@ -4,6 +4,8 @@ import OrderRow from './OrderRow';
 import ModalPropina from './ModalPropina';
 import { ref, get, child, update } from 'firebase/database'
 import { firebaseDB } from '../firebaseConfig';
+import { firestoreDB } from '../firebaseConfig';
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useNavigation } from '@react-navigation/native';
 
 const CuentaCliente = ({route, navigation}) => {
@@ -25,7 +27,28 @@ const CuentaCliente = ({route, navigation}) => {
   subtotalRef.current = subtotal;
   const navigationStrippe = useNavigation();
 
-  const pagarCuenta = () => {
+  const pagarCuenta = async() => {
+    
+    const pedidos = {};
+    const tot = (subtotal + (subtotal*0.16) + (subtotal*propina*0.01));
+    const fechaActual = new Date();
+    const regRef = collection(firestoreDB, "registros");
+    const id = param+fechaActual;
+    
+
+    for (const key in items) {
+      if (items.hasOwnProperty(key)) {
+        const item = items[key];
+        const nombre = item.nombre;
+        const cantidad = item.cantidad;
+    
+        pedidos[nombre] = cantidad;
+      }
+    };
+    await setDoc(doc(regRef, id), {
+      name: `mesa${param}`, pedidos: pedidos, date: fechaActual, country: "Mexico", total: tot, propina: propina});
+
+    //console.log("items",items);
     /*
     update(child(ref(firebaseDB),'restaurante1/mesas/' + param + '/'), {
       estado: 'cerrada',
