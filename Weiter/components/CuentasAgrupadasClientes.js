@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {StyleSheet, Text, View, Button, Pressable } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import { ref, get, child } from 'firebase/database'
+import { ref, get, child } from 'firebase/database';
 import { firebaseDB } from '../firebaseConfig';
 
 

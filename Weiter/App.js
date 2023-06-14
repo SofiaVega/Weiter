@@ -10,7 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConfirmacionPagoCliente from './components/ConfirmacionPagoCliente';
 import { firebaseDB } from './firebaseConfig';
 import { ref } from 'firebase/database'
-import CuentasAgrupadasClientes from './components/cuentasAgrupadasClientes';
+import CuentasAgrupadasClientes from './components/CuentasAgrupadasClientes';
 
 
 const Stack = createNativeStackNavigator();
